@@ -4,6 +4,9 @@
   "main": "index.js",
   "type": "module",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5"
