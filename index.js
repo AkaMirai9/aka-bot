@@ -11,10 +11,18 @@ const commands = [
   {
     name: 'spam',
     description: 'Spam the selected User',
-    options: {
-      name: 'op1',
-      description: 'op1'
-    }
+    options: [
+      {
+        name: 'user',
+        description: 'user to spam',
+        type: 3,
+      },
+      {
+        name: 'time',
+        description: 'time of the spamming',
+        type: 3,
+      }
+    ]
   }
 ];
 
@@ -48,15 +56,31 @@ client.on('interactionCreate', async interaction => {
   }
 
   if (interaction.commandName === 'spam') {
-    interaction.reply('spamming')
+
     const args = interaction.command;
-    console.log(interaction)
+    console.log(interaction.options.get('user'))
     client.channels.fetch(interaction.channelId).then(channel => {
-      channel.send('Hey')
+
+      const times = interaction.options.get('time').value
+      const user = interaction.options.get('user').value
+
+      if (!times || !user) {
+        throw Error()
+      }
+      interaction.reply('Début du Spamming -- Attention à toi ' + interaction.options.get('user').value)
+      for (let i = 0; i < parseInt(times); i++) {
+        setTimeout(() => {
+          channel.send('Hey ' + interaction.options.get('user').value + ' ' + interaction.user.displayName + ' t\'attends')
+        }, 5000 * (i + 1))
+      }
+      setTimeout(() => {
+        channel.send('Fin du spamming')
+      }, 5010 * times)
+
     }).catch(() => interaction.reply('error'))
 
   }
-}); 
+});
 
 
 
